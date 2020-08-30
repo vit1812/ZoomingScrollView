@@ -167,6 +167,10 @@ open class ImageScrollView: UIScrollView {
         
         // Make sure views have already layout with precise frame
         topSupperView?.layoutIfNeeded()
+        
+        DispatchQueue.main.async {
+            self.refresh()
+        }
     }
 
     // MARK: - Display image
