@@ -30,23 +30,28 @@ Note: If the above pod doesn't work, try using below pod definition in Podfile:
 
 `pod 'ImageScrollView', :git => 'https://github.com/huynguyencong/ImageScrollView.git'`
 
+#### Swift Package Manager
+
+In Xcode, select menu File -> Swift Packages -> Add Package Dependency. Select a target, then add this link to the input field:
+`https://github.com/huynguyencong/ImageScrollView.git`
+
 #### Manual
-Sometimes you don't want to use Cocoapod to install. In this case, you need to add it manually. Simply, just add the file `ImageSrollView.swift` in the folder `Sources` to your project
+Sometimes just want to install manually, just simply add the file `ImageSrollView.swift` in the folder `Sources` to your project.
 
 #### Simple to use
 Drag an UIScrollView to your storyboard, change Class and Module in Identity Inspector to ImageScrollView. Also, create an IBOutlet in your source file.
 
 ![How to config ImageScrollView in storyboard](ReadMeImages/storyboard-demo.jpeg?raw=true)
 
-```
+```swift
 import ImageScrollView
 ```
 
-```
+```swift
 @IBOutlet weak var imageScrollView: ImageScrollView!
 ```
 
-```
+```swift
 // Important: This setup method should be called once, usually in your viewDidLoad() method
 imageScrollView.setup()
 
@@ -57,11 +62,11 @@ That's all. Now try zooming and scrolling to see the result.
 
 You can set delegate to catch event. This delegate is inheritted from `UIScrollViewDelegate`.
 
-```
+```swift
 imageScrollView.imageScrollViewDelegate = self
 ```
 
-```
+```swift
 extension ViewController: ImageScrollViewDelegate {
     func imageScrollViewDidChangeOrientation(imageScrollView: ImageScrollView) {
         print("Did change orientation")
@@ -81,7 +86,9 @@ extension ViewController: ImageScrollViewDelegate {
 
 - If you have any problem about layout, image position, make sure you have called the setup() method of the ImageScrollView. Or you can try calling the method `layoutIfNeeded()` of the view controller's view:
 
-```view.layoutIfNeeded()```
+```swift
+view.layoutIfNeeded()
+```
 
 
 ### About this source
