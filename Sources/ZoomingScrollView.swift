@@ -9,10 +9,10 @@
 import UIKit
 
 @objc public protocol ImageScrollViewDelegate: UIScrollViewDelegate {
-    func imageScrollViewDidChangeOrientation(imageScrollView: ImageScrollView)
+    func imageScrollViewDidChangeOrientation(imageScrollView: ZoomingScrollView)
 }
 
-open class ImageScrollView: UIScrollView {
+open class ZoomingScrollView: UIScrollView {
     
     @objc public enum ScaleMode: Int {
         case aspectFill
@@ -77,7 +77,7 @@ open class ImageScrollView: UIScrollView {
         decelerationRate = UIScrollView.DecelerationRate.fast
         delegate = self
         
-        NotificationCenter.default.addObserver(self, selector: #selector(ImageScrollView.changeOrientationNotification), name: UIDevice.orientationDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ZoomingScrollView.changeOrientationNotification), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
     @objc public func adjustFrameToCenter() {
@@ -185,7 +185,7 @@ open class ImageScrollView: UIScrollView {
         zoomView!.isUserInteractionEnabled = true
         addSubview(zoomView!)
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ImageScrollView.doubleTapGestureRecognizer(_:)))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ZoomingScrollView.doubleTapGestureRecognizer(_:)))
         tapGesture.numberOfTapsRequired = 2
         zoomView!.addGestureRecognizer(tapGesture)
         
@@ -252,11 +252,11 @@ open class ImageScrollView: UIScrollView {
     
     @objc func doubleTapGestureRecognizer(_ gestureRecognizer: UIGestureRecognizer) {
         // zoom out if it bigger than the scale factor after double-tap scaling. Else, zoom in
-        if zoomScale >= minimumZoomScale * ImageScrollView.kZoomInFactorFromMinWhenDoubleTap - 0.01 {
+        if zoomScale >= minimumZoomScale * ZoomingScrollView.kZoomInFactorFromMinWhenDoubleTap - 0.01 {
             setZoomScale(minimumZoomScale, animated: true)
         } else {
             let center = gestureRecognizer.location(in: gestureRecognizer.view)
-            let zoomRect = zoomRectForScale(ImageScrollView.kZoomInFactorFromMinWhenDoubleTap * minimumZoomScale, center: center)
+            let zoomRect = zoomRectForScale(ZoomingScrollView.kZoomInFactorFromMinWhenDoubleTap * minimumZoomScale, center: center)
             zoom(to: zoomRect, animated: true)
         }
     }
@@ -294,7 +294,7 @@ open class ImageScrollView: UIScrollView {
     }
 }
 
-extension ImageScrollView: UIScrollViewDelegate {
+extension ZoomingScrollView: UIScrollViewDelegate {
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         imageScrollViewDelegate?.scrollViewDidScroll?(scrollView)
